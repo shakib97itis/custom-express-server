@@ -24,13 +24,14 @@ class App {
 
             const singleMw = this.middlewares[i];
 
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 singleMw(req, res, () => {
                     resolve(dispatch(i + 1));
                 });
             });
         };
-        return dispatch(0);
+
+        dispatch(0);
     }
 
     executeRoute(req, res) {
@@ -50,6 +51,7 @@ class App {
 
     listen(port, callback) {
         const server = http.createServer(async (req, res) => {
+           
             await this.executeMiddleware(req, res);
 
             this.executeRoute(req, res);
@@ -59,4 +61,4 @@ class App {
     }
 }
 
-module.exports = new App();
+module.exports = App;
